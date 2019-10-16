@@ -1,7 +1,10 @@
-//=====================================================================================// includes
-#include <stdio.h> 											//header i/o
+//=====================================================================================// libraries
+
+#include <stdio.h>
 #include <windows.h>
-#include <string.h> 										//header system(cls), getch(), etc
+#include <string.h>
+
+//=====================================================================================// global usable
 
   char buf[100];
   char *temp;
@@ -13,7 +16,7 @@
   char entry[100];
   int count, j, flag, tbd;
 
-//=====================================================================================// prototype setiap fungsi
+//=====================================================================================// prototype fungsi
 void header();
 void header_help();
 void header_menu();
@@ -35,7 +38,7 @@ void arrow(int urutan,int posisi);
 //=====================================================================================// main
 int main()
 {
-	system("COLOR 5E");
+	system("COLOR CF");
 	Sleep(50);
 	printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 	printf("                                         ");
@@ -140,9 +143,9 @@ int menu()
 //=====================================================================================// void refresh
 void refresh(){
 
+system("cls");
 FILE *a;
     a=fopen("contacts.csv","r");
-    system("cls");
 	count = 0;
   
   while (fgets(buf, 1000, a)) {
@@ -200,20 +203,23 @@ void add_contact()
        
 	for (j = 0; j < count; j++) {
     if (strcmp(nama,name[j])==0){
-    		fclose(fp);
-        	printf("\n\t\t\t\tNama yang sama sudah ada di dalam kontak. Silahkan coba nama lain.\n\n");
-        	printf("\t\t\t\t");system("pause");
-        	add_contact();        	
+        	printf("\n\t\t\t\tPeringatan: Nama yang sama sudah ada di dalam kontak.\n\n");
+        	printf("\t\t\t\t");system("pause"); 
+			system("cls");
+			header();
+			printf("\t\t\t\t==============================\n");		
+		    printf("\t\t\t\t|         Tambah Kontak      |\n");
+		    printf("\t\t\t\t==============================\n\n");   	
 		}
 	}
-		    
+	printf("\t\t\t\tNama		: %s\n",nama);
     printf("\t\t\t\tMobile No.	: ");
     scanf("%s",nomer);
      
 	 for (j = 0; j < count; j++) {
-     if (strcmp(nomer,number[j])==0){
+     if (strcmp(nama,name[j])==0 && strcmp(nomer,number[j])==0){
     		fclose(fp);
-        	printf("\n\t\t\t\tNomer yang sama sudah ada di dalam kontak. Silahkan coba nomer lain.\n\n");
+        	printf("\n\t\t\t\tNama dan nomer tidak boleh sama. Silahkan coba lagi.\n\n");
         	printf("\t\t\t\t");system("pause");
         	add_contact();        	
 		}
@@ -379,6 +385,7 @@ void delete_contact()
 	    {
 	    	case 'Y':
 	    	case 'y':
+	    	case 13:
 	    		remove("contacts.csv");
 			    b=fopen("contacts.csv","a+");
 			    if (posisi==2){
@@ -429,10 +436,12 @@ void delete_all()
 	    {
 	    	case 'Y':
 	    	case 'y':
+	    	case 13:
 	    		printf("\n\t\t\t\tApakah anda benar benar yakin? Hal ini akan menghapus semuanya![Y/N]");
 				switch(getch()){
 					case 'Y':
-	    			case 'y':		
+	    			case 'y':
+					case 13:		
 			    		remove("contacts.csv");
 					    printf("\n\t\t\t\tDelete success!");
 					    printf("\n\t\t\t\t");
@@ -475,13 +484,13 @@ void help()
 	header_help();
     printf("\t\t\t\t");
     printf("Ada yang bisa dibantu ?\n");
-    printf("\n\t\t\t\t\t    ============================\n");
+    printf("\n\t\t\t\t\t    ============================\n\n");
     arrow(1,posisi);printf("1. Daftar Kontak\n");
 	arrow(2,posisi);printf("2. Tambah Kontak\n");
 	arrow(3,posisi);printf("3. Hapus Kontak\n");
 	arrow(4,posisi);printf("4. Pencarian\n");
 	arrow(5,posisi);printf("5. Hapus Semua\n");
-	arrow(6,posisi);printf("6. Kembali ke menu\n");
+	arrow(6,posisi);printf("6. Kembali ke menu\n\n");
     printf("\t\t\t\t\t    ============================\n");
     key=getch();
   if(key == 80 && posisi != 6){
